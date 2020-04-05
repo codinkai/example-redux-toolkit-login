@@ -1,68 +1,51 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Example: A Login system with Redux Toolkit
 
-In the project directory, you can run:
+This repository includes an example on how to use the Redux Toolkit for a simple login system. "The Redux Toolkit package is intended to be the standard way to write Redux logic" (see https://redux-toolkit.js.org/introduction/quick-start). The example has two pages a login form and a protected dashboard. To route between the pages the package 'react-router-dom' is used.
 
-### `yarn start`
+The example mocks an API request. A successful login is possible with the credentials, email=test@test.com and password=PASSWORD.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Tutorial
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Create a new react app
 
-### `yarn test`
+    npx create-react-app example-rtk-login
+    cd example-rtk-login
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Install dependencies
 
-### `yarn build`
+    npm install --save react-router-dom react-redux @reduxjs/toolkit
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Remove all template code
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+    rm src/*
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Create directory structure
 
-### `yarn eject`
+    cd src
+    mkdir components routes store store/slices
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### index.js
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The index.js file configures the react application. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+"The <Provider /> makes the Redux store available to any nested components that have been wrapped in the connect() function" (see https://react-redux.js.org/api/provider).
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<BrowserRouter /> enables routing in <App />.
 
-## Learn More
+### Routing
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The sole purpose of the <App /> component is to route between the different components in the app.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The <ProtectedRoute /> components checks if a user is logged in. If a user is not logged in, redirect to login page.
 
-### Code Splitting
+The index.js file provides a map of public and protected routes to the corresponding components.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Redux store
 
-### Analyzing the Bundle Size
+In 'index.js' the redux store is configured and in 'reducers.js' the reducers are combined to one root reducer. 
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+#### Auth slice
 
-### Making a Progressive Web App
+The complete login logic is located in slices/auth.js. This is achieved due to the redux-toolkit function createSlice. "A function that accepts an initial state, an object full of reducer functions, and a "slice name", and automatically generates action creators and action types that correspond to the reducers and state" (see https://redux-toolkit.js.org/api/createslice).
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
