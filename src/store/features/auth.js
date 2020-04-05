@@ -7,21 +7,28 @@ const authSlice = createSlice({
     loading: false,
     loggedIn: false,
     user: undefined,
+    error: undefined,
   },
   reducers: {
     loginRequest(state, action) {
-      console.log("loginRequest");
+      console.log("action: loginRequest");
       state.loading = true;
     },
     loginSuccess(state, action) {
-      console.log("loginSuccess");
+      console.log("action: loginSuccess");
       state.loading = false;
       state.loggedIn = true;
       state.user = action.payload;
     },
     loginFailure(state, action) {
-      console.log("loginFailure");
+      console.log("action: loginFailure");
       state.loading = false;
+      state.loggedIn = false;
+      state.user = undefined;
+      state.error = action.payload;
+    },
+    logoutRequest(state, action) {
+      console.log("action: logoutRequest");
       state.loggedIn = false;
       state.user = undefined;
     }
@@ -38,28 +45,37 @@ const mockAPIReguest = (success, timeout) => {
       if (success) {
         resolve({ name: 'Test User' });
       } else {
-        reject({ message: 'Error' });
+        reject({ message: 'Error: Credentials invalid' });
       }
     }, timeout || 1000);
   });
 }
 
-export const login = (credentials) => async dispatch => {
-  console.log("login action-creator");
+// action creator login
+export const login = (credentials) => async (dispatch) => {
+  console.log("action-creator: login");
   console.log(credentials);
 
-  const { email, password } = credentials;
-  const mockSucessfulLogin = (email === 'test@test.com' && password === 'PASSWORD') ? true : false;
-
   try {
+    // dispatch a loginRequest action to indicate loading
     dispatch(loginRequest());
-    const response = await mockAPIReguest(mockSucessfulLogin);
+
+    // mock api login request
+    const { email, password } = credentials;
+    const credentialsCorrect = (email === 'test@test.com' && password === 'PASSWORD') ? true : false;
+    const response = await mockAPIReguest(credentialsCorrect /* sucess */);
+    console.log("mock-api response:");
     console.log(response);
-    dispatch(loginSuccess(response.data));
+
+    // dispatch a loginSuccess action
+    dispatch(loginSuccess(response));
   }
   catch (err) {
+    console.log("mock-api error:");
     console.log(err);
-    dispatch(loginFailure(err));
+
+    // dispatch a loginFailure action
+    dispatch(loginFailure(err.message));
   }
 }
 

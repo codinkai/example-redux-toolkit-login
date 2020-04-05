@@ -1,9 +1,16 @@
 
-# Example: A Login system with Redux Toolkit
+# Example: Login system with Redux Toolkit
 
 This repository includes an example on how to use the Redux Toolkit for a simple login system. "The Redux Toolkit package is intended to be the standard way to write Redux logic" (see https://redux-toolkit.js.org/introduction/quick-start). The example has two pages a login form and a protected dashboard. To route between the pages the package 'react-router-dom' is used.
 
 The example mocks an API request. A successful login is possible with the credentials, email=test@test.com and password=PASSWORD.
+
+NOTE: The state is not persisted in any way. A page reload is equivalent with a logout.
+
+## Start application
+
+    npm install
+    npm start
 
 ## Tutorial
 
