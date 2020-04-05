@@ -29,15 +29,15 @@ The example mocks an API request. A successful login is possible with the creden
 
 The index.js file configures the react application. 
 
-"The <Provider /> makes the Redux store available to any nested components that have been wrapped in the connect() function" (see https://react-redux.js.org/api/provider).
+"The Provider component makes the Redux store available to any nested components that have been wrapped in the connect() function" (see https://react-redux.js.org/api/provider).
 
-<BrowserRouter /> enables routing in <App />.
+BrowserRouter component enables routing in the App component.
 
 ### Routing
 
-The sole purpose of the <App /> component is to route between the different components in the app.
+The sole purpose of the App component is to route between the different components in the app.
 
-The <ProtectedRoute /> components checks if a user is logged in. If a user is not logged in, redirect to login page.
+The ProtectedRoute component checks if a user is logged in. If a user is not logged in, redirect to login page.
 
 The index.js file provides a map of public and protected routes to the corresponding components.
 
