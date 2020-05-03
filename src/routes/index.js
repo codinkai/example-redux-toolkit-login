@@ -1,19 +1,18 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-
-// pages 
+// import pages 
 import LogInForm from "../pages/LoginForm";
+import Landing from "../pages/Landing"
 import Dashboard from "../pages/Dashboard"
 
-
+// define protected routes
 const protectedRoutes = [
   { path: "/dashboard", component: Dashboard },
-  { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
 ];
 
-
+// define public routes
 const publicRoutes = [
+  { path: "/", exact: true, component: Landing },
   { path: "/login", component: LogInForm }
 ];
 
+// export routes
 export { protectedRoutes, publicRoutes };

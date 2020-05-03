@@ -36,7 +36,7 @@ const authSlice = createSlice({
 })
 
 // extract action-creators from slice
-const { loginRequest, loginSuccess, loginFailure } = authSlice.actions;
+const { loginRequest, loginSuccess, loginFailure, logoutRequest } = authSlice.actions;
 
 // helper function to mock an api request
 const mockAPIReguest = (success, timeout) => {
@@ -77,6 +77,11 @@ export const login = (credentials) => async (dispatch) => {
     // dispatch a loginFailure action
     dispatch(loginFailure(err.message));
   }
+}
+
+export const logout = (credentials) => async (dispatch) => {
+  console.log("action-creator: logout");
+  dispatch(logoutRequest());
 }
 
 export default authSlice.reducer;
