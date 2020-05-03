@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { Alert, Button, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { LogIn, LogOut } from 'react-feather';
 import { useSelector, useDispatch } from "react-redux";
-import { login, logout } from "../../store/features/auth";
+import {
+  // action creators
+  login, logout,
+  // selectors
+  isLoadingSelector, errorSelector, isLoggedInSelector
+} from "../../store/features/auth";
 import useInput from '../../hooks/useInput'
 
 
@@ -10,9 +15,9 @@ const Login = () => {
   const dispatch = useDispatch();
 
   // redux state
-  const loggedIn = useSelector((state) => state.auth.loggedIn);
-  const loading = useSelector((state) => state.auth.loading);
-  const error = useSelector((state) => state.auth.error);
+  const loggedIn = useSelector(isLoggedInSelector);
+  const loading = useSelector(isLoadingSelector);
+  const error = useSelector(errorSelector);
 
   // state of login modal
   const [modalOpened, setModalOpened] = useState(false);
@@ -51,9 +56,9 @@ const Login = () => {
         <LogIn />{" "}Login
       </Button>
       <Modal isOpen={modalOpened} >
-        <Form onSubmit={handleSubmit}>
-          <ModalHeader>Login</ModalHeader>
-          <ModalBody>
+        <ModalHeader>Login</ModalHeader>
+        <ModalBody>
+          <Form onSubmit={handleSubmit}>
             {error &&
               (<Alert color="danger">
                 {error}
@@ -66,24 +71,22 @@ const Login = () => {
 
             <FormGroup>
               <Label for="login-email">Email:</Label>
-              <Input type="email" name="email" id="login-email" {...bindEmail} />
+              <Input type="email" name="email" id="login-email" {...bindEmail} disabled={loading} />
             </FormGroup>
             <FormGroup>
               <Label for="login-password">Password:</Label>
-              <Input type="password" name="password" id="login-password" {...bindPassword} />
+              <Input type="password" name="password" id="login-password" {...bindPassword} disabled={loading} />
             </FormGroup>
-
-          </ModalBody>
-          <ModalFooter>
-            {loading === false ?
-              <Button color="primary" type="submit">Login</Button>
-              :
-              <Button disabled>Loading</Button>
-            }
-
-            <Button color="secondary" onClick={closeModal}>Cancel</Button>
-          </ModalFooter>
-        </Form>
+            <div className="float-right">
+              {loading === false ?
+                <Button color="primary" type="submit">Login</Button>
+                :
+                <Button disabled>Loading</Button>
+              }
+              <Button className="ml-2" color="secondary" onClick={closeModal}>Cancel</Button>
+            </div>
+          </Form>
+        </ModalBody>
       </Modal>
     </React.Fragment>
   );

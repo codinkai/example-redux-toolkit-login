@@ -4,39 +4,45 @@ import { createSlice } from '@reduxjs/toolkit'
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    loading: false,
-    loggedIn: false,
+    isLoading: false,
     user: undefined,
     error: undefined,
   },
   reducers: {
     loginRequest(state, action) {
       console.log("action: loginRequest");
-      state.loading = true;
+      state.isLoading = true;
     },
     loginSuccess(state, action) {
       console.log("action: loginSuccess");
-      state.loading = false;
-      state.loggedIn = true;
+      state.isLoading = false;
       state.user = action.payload;
+      state.error = undefined;
     },
     loginFailure(state, action) {
       console.log("action: loginFailure");
-      state.loading = false;
-      state.loggedIn = false;
+      state.isLoading = false;
       state.user = undefined;
       state.error = action.payload;
     },
     logoutRequest(state, action) {
       console.log("action: logoutRequest");
-      state.loggedIn = false;
+      state.isLoading = false;
       state.user = undefined;
+      state.error = undefined;
     }
   }
 })
 
 // extract action-creators from slice
 const { loginRequest, loginSuccess, loginFailure, logoutRequest } = authSlice.actions;
+
+// export selecttor
+export const userSelector = state => state.auth.user;
+export const errorSelector = state => state.auth.error;
+export const isLoadingSelector = state => state.auth.isLoading;
+export const isLoggedInSelector = state => (state.auth.user !== undefined);
+
 
 // helper function to mock an api request
 const mockAPIReguest = (success, timeout) => {
